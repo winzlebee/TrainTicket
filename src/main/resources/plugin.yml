@@ -1,0 +1,18 @@
+author: wizzledonker
+database: false
+description: Users must buy tickets before they are allowed to enter a train/cart.
+main: me.wizzledonker.plugins.trainticket.Trainticket
+name: TrainTicket
+startup: postworld
+version: '1.1'
+softdepend: [Vault]
+permissions:
+  TrainTicket.exempt:
+    Description: Defines whether the player is exempt from ticket payment
+    Default: op
+  TrainTicket.booth.use:
+    Description: Defines whether the player can buy a ticket from a ticket booth
+    Default: op
+  TrainTicket.booth.create:
+    Description: Defines whether the player can create a ticket booth
+    Default: op
