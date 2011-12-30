@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package me.wizzledonker.plugins.trainticket;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleListener;
@@ -32,7 +27,7 @@ public class TrainTicketListener extends VehicleListener{
                 player.sendMessage(plugin.handleMessages(2));
                 return;
             }
-            if (player.getItemInHand().getType() == Material.PAPER && plugin.hasTicket(player)) {
+            if (player.getItemInHand().getTypeId() == plugin.ticketDataValue && plugin.hasTicket(player)) {
                 plugin.setTicket(player, false);
                 player.sendMessage(plugin.handleMessages(1));
                 player.setItemInHand(null);
