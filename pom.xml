@@ -2,13 +2,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.wizzledonker.plugins.trainticket</groupId>
     <artifactId>TrainTicket</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
     <name>TrainTicket</name>
     <repositories>
         <repository>
             <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/artifactory/repo</url>
+            <url>http://repo.bukkit.org/content/repositories/releases/</url>
         </repository>
+	     <repository>
+		      <id>vault-repo</id>
+		      <url>http://ci.herocraftonline.com/plugin/repository/everything/</url>
+	     </repository>
     </repositories>
     <build>
         <plugins>
@@ -27,14 +31,14 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.6.4-R2.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.milkbowl</groupId>
-            <artifactId>Vault</artifactId>
-            <version>1.1.4</version>
+            <artifactId>vault</artifactId>
+            <version>1.2.27</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
