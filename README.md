@@ -9,3 +9,10 @@ v1.5 Forked from wizzledonker's source
 
 Split exempt permissions into two nodes, TrainTicket.exempt.cart and TrainTicket.exempt.boat. It also no longer 
 requires a ticket to ride Horses or Pigs.
+
+To compile:
+
+Make sure you have apache Maven installed, download the contents of this repo, and run
+
+mvn clean package
+
