@@ -2,7 +2,6 @@
 /*    */ 
 /*    */ import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 /*    */ import org.bukkit.event.EventHandler;
 import org.bukkit.event.vehicle.VehicleEvent;
 /*    */ import org.bukkit.event.Listener;
@@ -20,21 +19,16 @@ import org.bukkit.event.vehicle.VehicleEvent;
 /*    */   }
 /*    */ 
 /*    */   @EventHandler
-/*    */   public void onVehicleEnter(VehicleEnterEvent event) {     
-             if ((event.getVehicle().getType() == EntityType.HORSE)) {
+/*    */   public void onVehicleEnter(VehicleEnterEvent event) {
+	          
+             if ((event.getTypeId() == EntityType.HORSE)) {
                  return;             
              }
-             if ((event.getVehicle().getType() == EntityType.PIG)) {
-                 return;             
-             }
-             if ((event.getEntered() instanceof Player)) {
+               if ((event.getEntered() instanceof Player)) {
 /* 23 */       	Player player = (Player)event.getEntered();
-/* 24 */       	if (player.hasPermission("TrainTicket.exempt.cart")) {
+/* 24 */       	if (player.hasPermission("TrainTicket.exempt")) {
 /* 25 */         		return;
-/*    */       		}
-                if ((event.getVehicle().getType() == EntityType.BOAT) && player.hasPermission("TrainTicket.exempt.boat")) {
-                		return;
-                }
+/*    */       		}	
 /* 27 */       	if (player.isInsideVehicle()) {
 /* 28 */         		player.sendMessage(plugin.handleMessages(Integer.valueOf(2)));
 /* 29 */         		return;
