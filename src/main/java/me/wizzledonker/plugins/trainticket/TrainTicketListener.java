@@ -39,6 +39,10 @@ import org.bukkit.event.vehicle.VehicleEvent;
 /* 28 */         		player.sendMessage(plugin.handleMessages(Integer.valueOf(2)));
 /* 29 */         		return;
 /*    */       		}
+        if (player.getItemInHand().getTypeId() == plugin.ticketDataValue)
+        		{
+        			plugin.setTicket(player, true);
+        		}
 /* 31 */       if ((player.getItemInHand().getTypeId() == plugin.ticketDataValue) && (plugin.hasTicket(player))) 
 					{
 /* 32 */         plugin.setTicket(player, false);
@@ -49,11 +53,6 @@ import org.bukkit.event.vehicle.VehicleEvent;
 /* 36 */         player.sendMessage(plugin.handleMessages(Integer.valueOf(3)));
 /* 37 */         event.setCancelled(true);
 /*    */       }
-/*    */     }
-/*    */   }
-/*    */ }
-
-/* Location:           C:\Users\DrkMatr\Desktop\TrainTicket-1.4.jar
- * Qualified Name:     me.wizzledonker.plugins.trainticket.TrainTicketListener
- * JD-Core Version:    0.6.2
- */
+				}
+			}
+		}
