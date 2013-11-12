@@ -19,6 +19,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.inventory.Inventory;
 
 public class Trainticket extends JavaPlugin
 {
@@ -123,8 +124,15 @@ public class Trainticket extends JavaPlugin
 
   public void buyTicket(Double price, Player player)
   {
-/* 136 */     ItemStack it = new ItemStack(this.ticketDataValue, 1);
-
+	  if (player.getInventory().firstEmpty() == -1)
+	    {
+	    	player.sendMessage(ChatColor.RED + "Your inventory is Full! No Ticket Purchased!");
+	    	return;
+		}
+	  else
+                {
+                	ItemStack it = new ItemStack(this.ticketDataValue, +1);
+                
 /* 138 */     if (!isGoldIngot()) {
 /* 139 */       if (economy.getBalance(player.getName()) <= price.doubleValue()) {
 /* 140 */         player.sendMessage(ChatColor.RED + handleMessages(Integer.valueOf(4)));
@@ -148,10 +156,10 @@ public class Trainticket extends JavaPlugin
          return;
       }
     }
-
-     if (this.dispenseMinecart) {
-      player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.MINECART, 1));
-     return;
+if (this.dispenseMinecart) {
+    player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.MINECART, 1));
+   return;   
+			}    
     }
   }
 

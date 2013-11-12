@@ -1,23 +1,24 @@
-/*    */ package me.wizzledonker.plugins.trainticket;
-/*    */ 
-/*    */ import org.bukkit.entity.Player;
+package me.wizzledonker.plugins.trainticket;
+ 
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-/*    */ import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.vehicle.VehicleEvent;
-/*    */ import org.bukkit.event.Listener;
-/*    */ import org.bukkit.event.vehicle.VehicleEnterEvent;
-/*    */ import org.bukkit.inventory.ItemStack;
-/*    */ 
-/*    */ public class TrainTicketListener
-/*    */   implements Listener
-/*    */ {
-/*    */   public static Trainticket plugin;
-/*    */ 
-/*    */   public TrainTicketListener(Trainticket instance)
-/*    */   {
-/* 17 */     plugin = instance;
-/*    */   }
+import org.bukkit.event.Listener;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.ItemStack;
+ 
+public class TrainTicketListener
+implements Listener
+{
+public static Trainticket plugin;
+ 
+public TrainTicketListener(Trainticket instance)
+{
+plugin = instance;
+}
 /*    */ 
 /*    */   @EventHandler
 /*    */   public void onVehicleEnter(VehicleEnterEvent event) {     
@@ -45,9 +46,15 @@ import org.bukkit.event.vehicle.VehicleEvent;
         		}
 /* 31 */       if ((player.getItemInHand().getTypeId() == plugin.ticketDataValue) && (plugin.hasTicket(player))) 
 					{
-/* 32 */         plugin.setTicket(player, false);
 /* 33 */         player.sendMessage(plugin.handleMessages(Integer.valueOf(1)));
-/* 34 */         player.setItemInHand(null);
+/* 34 */         if(player.getItemInHand().getAmount() == 1)
+                   {
+                     player.setItemInHand(new ItemStack(Material.AIR));
+                     plugin.setTicket(player, false);
+                   }else{
+                   player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
+                   plugin.setTicket(player, true);
+                }
 /*    */       } 
 					else {
 /* 36 */         player.sendMessage(plugin.handleMessages(Integer.valueOf(3)));
