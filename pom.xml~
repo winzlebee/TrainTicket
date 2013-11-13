@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.wizzledonker.plugins.trainticket</groupId>
     <artifactId>TrainTicket</artifactId>
-    <version>1.5c1.6.2</version>
+    <version>1.5</version>
     <name>TrainTicket</name>
     <repositories>
         <repository>
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.6.2-R1.1-SNAPSHOT</version>
+            <version>1.6.4-R2.0</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -41,6 +41,13 @@
             <version>1.2.27</version>
             <type>jar</type>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.myekaansmine</groupId>
+            <artifactId>InventoryChecker</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/InventoryChecker-0.1.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

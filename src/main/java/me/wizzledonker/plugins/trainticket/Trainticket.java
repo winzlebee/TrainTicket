@@ -21,6 +21,7 @@ import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.inventory.Inventory;
 
+
 public class Trainticket extends JavaPlugin
 {
 /*  29 */   TrainTicketListener signChestListener = new TrainTicketListener(this);
@@ -124,6 +125,9 @@ public class Trainticket extends JavaPlugin
 
   public void buyTicket(Double price, Player player)
   {
+<<<<<<< HEAD
+                	ItemStack it = new ItemStack(this.ticketDataValue, 1);
+=======
 	  if (player.getInventory().firstEmpty() == -1)
 	    {
 	    	player.sendMessage(ChatColor.RED + "Your inventory is Full! No Ticket Purchased!");
@@ -132,17 +136,26 @@ public class Trainticket extends JavaPlugin
 	  else
                 {
                 	ItemStack it = new ItemStack(this.ticketDataValue, +1);
+>>>>>>> 2ea7644949a169bdb37d54e3914d26f9ec2fb4af
                 
 /* 138 */     if (!isGoldIngot()) {
-/* 139 */       if (economy.getBalance(player.getName()) <= price.doubleValue()) {
-/* 140 */         player.sendMessage(ChatColor.RED + handleMessages(Integer.valueOf(4)));
-/* 141 */         return;
-      }
-/* 143 */       setTicket(player, true);
+	if (economy.getBalance(player.getName()) <= price.doubleValue()) {
+		/* 140 */         player.sendMessage(ChatColor.RED + handleMessages(Integer.valueOf(4)));
+		/* 141 */         return;
+		      }
+				Material mat = Material.getMaterial(ticketDataValue);
+/* 143 */       Player p = player;
 /* 144 */       economy.withdrawPlayer(player.getName(), price.doubleValue());
-/* 145 */       player.setItemInHand(it);
-/* 146 */       player.sendMessage(ChatColor.GREEN + handleMessages(Integer.valueOf(5)).replace("%price%", new StringBuilder().append(ChatColor.WHITE).append(price.toString()).toString()));
-    }
+				if(InventoryCheck(p, mat) == true)
+				{
+					setTicket(player, true);
+					player.getInventory().addItem(new ItemStack(this.ticketDataValue));
+					player.updateInventory();
+/* 146 */           player.sendMessage(ChatColor.GREEN + handleMessages(Integer.valueOf(5)).replace("%price%", new StringBuilder().append(ChatColor.WHITE).append(price.toString()).toString()));
+				} else {
+					player.sendMessage(ChatColor.RED + "Your inventory is full!");
+					}
+			}
     else {
       Inventory inv = player.getInventory();
        ItemStack gold = new ItemStack(Material.GOLD_INGOT, (int)Math.ceil(price.doubleValue()));
@@ -160,7 +173,10 @@ if (this.dispenseMinecart) {
     player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.MINECART, 1));
    return;   
 			}    
+<<<<<<< HEAD
+=======
     }
+>>>>>>> 2ea7644949a169bdb37d54e3914d26f9ec2fb4af
   }
 
   private boolean isGoldIngot() {
@@ -180,6 +196,23 @@ if (this.dispenseMinecart) {
 
      return Boolean.valueOf(economy != null);
   }
+  private boolean InventoryCheck(Player player, Material mat) {
+		ItemStack itemToAdd = new ItemStack(mat, 1);
+		int freeSpace = 0;
+		for (ItemStack i : player.getInventory()) {
+			if (i == null) {
+				freeSpace+=itemToAdd.getType().getMaxStackSize();
+			} else if (i.getType() == itemToAdd.getType()) {
+				freeSpace+=i.getType().getMaxStackSize() - i.getAmount();
+			}
+		}
+		if (itemToAdd.getAmount() <= freeSpace) {
+			return true;
+		} else {
+			return false;
+//not enough space, tell the player and abort mission
+}
+}
 }
 
 /* Location:           C:\Users\DrkMatr\Desktop\TrainTicket-1.4.jar
