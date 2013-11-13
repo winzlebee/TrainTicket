@@ -19,7 +19,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.inventory.Inventory;
 
 
 public class Trainticket extends JavaPlugin
@@ -125,18 +124,7 @@ public class Trainticket extends JavaPlugin
 
   public void buyTicket(Double price, Player player)
   {
-<<<<<<< HEAD
                 	ItemStack it = new ItemStack(this.ticketDataValue, 1);
-=======
-	  if (player.getInventory().firstEmpty() == -1)
-	    {
-	    	player.sendMessage(ChatColor.RED + "Your inventory is Full! No Ticket Purchased!");
-	    	return;
-		}
-	  else
-                {
-                	ItemStack it = new ItemStack(this.ticketDataValue, +1);
->>>>>>> 2ea7644949a169bdb37d54e3914d26f9ec2fb4af
                 
 /* 138 */     if (!isGoldIngot()) {
 	if (economy.getBalance(player.getName()) <= price.doubleValue()) {
@@ -144,7 +132,7 @@ public class Trainticket extends JavaPlugin
 		/* 141 */         return;
 		      }
 				Material mat = Material.getMaterial(ticketDataValue);
-/* 143 */       Player p = player;
+				Player p = player;
 /* 144 */       economy.withdrawPlayer(player.getName(), price.doubleValue());
 				if(InventoryCheck(p, mat) == true)
 				{
@@ -158,12 +146,20 @@ public class Trainticket extends JavaPlugin
 			}
     else {
       Inventory inv = player.getInventory();
+      Material mat = Material.getMaterial(ticketDataValue);
+		Player p = player;
        ItemStack gold = new ItemStack(Material.GOLD_INGOT, (int)Math.ceil(price.doubleValue()));
        if (inv.contains(gold)) {
-         inv.remove(gold);
-         setTicket(player, true);
-         player.setItemInHand(it);
-         player.sendMessage(ChatColor.GREEN + handleMessages(Integer.valueOf(5)).replace("%price%", new StringBuilder().append(ChatColor.WHITE).append(price.toString()).toString()));
+    	   if (InventoryCheck(p, mat) == true){
+    		  inv.remove(gold);
+    	      setTicket(player, true);
+    	      player.getInventory().addItem(new ItemStack(this.ticketDataValue));
+    	      player.updateInventory();
+    	      player.sendMessage(ChatColor.GREEN + handleMessages(Integer.valueOf(5)).replace("%price%", new StringBuilder().append(ChatColor.WHITE).append(price.toString()).toString()));   
+    	   }else{
+    		  player.sendMessage(ChatColor.RED + "Your inventory is full!");
+    	   }
+         
       } else {
          player.sendMessage(ChatColor.RED + handleMessages(Integer.valueOf(4)));
          return;
@@ -173,10 +169,6 @@ if (this.dispenseMinecart) {
     player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.MINECART, 1));
    return;   
 			}    
-<<<<<<< HEAD
-=======
-    }
->>>>>>> 2ea7644949a169bdb37d54e3914d26f9ec2fb4af
   }
 
   private boolean isGoldIngot() {
