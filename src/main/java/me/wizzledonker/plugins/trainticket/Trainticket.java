@@ -112,7 +112,7 @@ public ItemMeta ticket;
               this.ticketDataValue = getConfig().getInt("booth.ticket_item", 339);
 /*  91 */     this.ticketName = getConfig().getString("booth.ticket_name", ticketName);
 			  this.ticketLore1 = getConfig().getString("booth.ticket_lore1", ticketLore1);
-			  this.ticketLore1 = getConfig().getString("booth.ticket_lore1", ticketLore1);
+			  this.ticketLore2 = getConfig().getString("booth.ticket_lore2", ticketLore2);
 /*  93 */     System.out.println(this + " has finished loading the config file.");
   }
 
