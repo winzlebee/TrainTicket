@@ -1,5 +1,7 @@
 package me.wizzledonker.plugins.trainticket;
  
+import java.util.ArrayList;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
@@ -8,7 +10,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.vehicle.VehicleEvent;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
  
 public class TrainTicketListener
 implements Listener
@@ -20,8 +24,10 @@ public TrainTicketListener(Trainticket instance)
 plugin = instance;
 }
 /*    */ 
-/*    */   @EventHandler
-/*    */   public void onVehicleEnter(VehicleEnterEvent event) {     
+/*    */   
+@EventHandler
+
+/*    */   public void onVehicleEnter(VehicleEnterEvent event) {
              if ((event.getVehicle().getType() == EntityType.HORSE)) {
                  return;             
              }
@@ -40,26 +46,31 @@ plugin = instance;
 /* 28 */         		player.sendMessage(plugin.handleMessages(Integer.valueOf(2)));
 /* 29 */         		return;
 /*    */       		}
-        if (player.getItemInHand().getTypeId() == plugin.ticketDataValue)
-        		{
-        			plugin.setTicket(player, true);
-        		}
-/* 31 */       if ((player.getItemInHand().getTypeId() == plugin.ticketDataValue) && (plugin.hasTicket(player))) 
-					{
-/* 33 */         player.sendMessage(plugin.handleMessages(Integer.valueOf(1)));
-/* 34 */         if(player.getItemInHand().getAmount() == 1)
-                   {
-                     player.setItemInHand(new ItemStack(Material.AIR));
-                     plugin.setTicket(player, false);
-                   }else{
-                   player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
-                   plugin.setTicket(player, true);
-                }
-/*    */       } 
-					else {
-/* 36 */         player.sendMessage(plugin.handleMessages(Integer.valueOf(3)));
-/* 37 */         event.setCancelled(true);
-/*    */       }
-				}
-			}
-		}
+                              
+        	     if (player.getItemInHand().getAmount() != 0)
+        	    	 {
+        	    	 	if((player.getInventory().getItemInHand().getItemMeta().getDisplayName().equals(plugin.ticketName)) && (plugin.hasTicket(player) == true))
+        	    	 		{
+/* 33 */         				player.sendMessage(plugin.handleMessages(Integer.valueOf(1)));
+/* 34 */         				if(player.getItemInHand().getAmount() == 1)
+									{
+										player.setItemInHand(new ItemStack(Material.AIR));
+										plugin.setTicket(player, false);
+									}
+								else{
+										player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
+										plugin.setTicket(player, true);
+									}
+/*    */       				}
+        	    	 	else{
+							player.sendMessage(plugin.handleMessages(Integer.valueOf(3)));
+							event.setCancelled(true);
+        	    	 		}
+        	    	 	}
+				else {
+						player.sendMessage(plugin.handleMessages(Integer.valueOf(3)));
+						event.setCancelled(true);
+/*    */       		 }
+             }
+}
+}
