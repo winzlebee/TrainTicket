@@ -169,12 +169,12 @@ public ItemMeta ticket;
 					}
 			}
     else {
-      Inventory inv = player.getInventory();
-       ItemStack gold = new ItemStack(Material.GOLD_INGOT, (int)Math.ceil(price.doubleValue()));
-       if (inv.contains(gold)) {
+       int goldAmount = goldCounter(player);
+       int ticketPrice = (int)Math.ceil(price.doubleValue());
+       if (goldAmount >= ticketPrice) {  
     	   if (InventoryCheck(p, is) == true){
     		  setTicket(player, true);
-    		  inv.remove(gold);
+    		  takeGold(ticketPrice, player);
     	      player.getInventory().addItem(is);
     	      player.updateInventory();
     	      player.sendMessage(ChatColor.GREEN + handleMessages(Integer.valueOf(5)).replace("%price%", new StringBuilder().append(ChatColor.WHITE).append(price.toString()).toString()));   
@@ -224,10 +224,53 @@ if (this.dispenseMinecart) {
 			return true;
 		} else {
 			return false;
+			
 //not enough space, tell the player and abort mission
 }
 }
-}
+  private int goldCounter(Player player){
+	  int gold = 0;
+	  for (ItemStack i : player.getInventory()) {
+		  if ((i != null) && (i.getType() == Material.GOLD_INGOT)){
+				int counter = 0;
+				counter = i.getAmount();
+				gold = gold + counter;
+			}
+			}
+	  return gold;
+		}
+  private void takeGold(int Price, Player player){
+	  int change;
+	  int goldLeft = Price;
+	  for (ItemStack i : player.getInventory().getContents()){
+		  if ((i != null) && (i.getType() == Material.GOLD_INGOT)){
+			  if (i.getAmount() >= goldLeft){
+				  change = i.getAmount() - goldLeft;
+				  if(change == 0)
+				  {
+					  player.sendMessage(ChatColor.RED + "If Works!");
+					  player.getInventory().removeItem(i);
+					  player.updateInventory();
+					  return;
+				  }
+				  if(change != 0){
+					  i.setAmount(change);
+					  return;
+				  }
+			  }
+			  if(i.getAmount() < goldLeft){
+				goldLeft = goldLeft - i.getAmount();
+				player.getInventory().removeItem(i);
+				player.updateInventory();
+			  	}
+			  }
+			  }
+	  }
+  }
+  
+
+  
+
 
 /* Location:           C:\Users\DrkMatr\Desktop\TrainTicket-1.4.jar
  * Qualified Name:     me.wizzledonker.plugins.trainticket.Trainticket
