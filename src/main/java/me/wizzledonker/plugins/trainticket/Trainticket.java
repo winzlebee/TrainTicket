@@ -248,7 +248,6 @@ if (this.dispenseMinecart) {
 				  change = i.getAmount() - goldLeft;
 				  if(change == 0)
 				  {
-					  player.sendMessage(ChatColor.RED + "If Works!");
 					  player.getInventory().removeItem(i);
 					  player.updateInventory();
 					  return;
