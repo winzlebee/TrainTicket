@@ -61,6 +61,7 @@ public ItemMeta ticket;
 /*  55 */     pm.registerEvents(this.trainBlockListener, this);
               pm.registerEvents(this.trainLoginListener, this);
 /*  56 */     setupConfig();
+			  /*Initialize Custom Ticket Item*/
 			  is = new ItemStack(Material.getMaterial(ticketDataValue), 1);
 			  ticket = is.getItemMeta();
 			  ticket.setDisplayName(ticketName);
@@ -136,18 +137,18 @@ public ItemMeta ticket;
 /* 113 */     return "";
   }
   public boolean hasTicket(Player player) {
-	  /* 117 */     return this.ticketSet.contains(player);
+	  		return this.ticketSet.contains(player);
 	    }
 
 	    public void setTicket(Player player, boolean enabled) {
-	  /* 121 */     if ((hasTicket(player)) && (!enabled))
-	  /* 122 */       this.ticketSet.remove(player);
-	  /* 123 */     else if ((hasTicket(player)) && (enabled == true)) {
-	  /* 124 */       return;
+	       if ((hasTicket(player)) && (!enabled))
+	         this.ticketSet.remove(player);
+	       else if ((hasTicket(player)) && (enabled == true)) {
+	         return;
 	      }
-	  /* 126 */     if ((!hasTicket(player)) && (enabled == true))
-	  /* 127 */       this.ticketSet.add(player);
-	  /* 128 */     else if ((!hasTicket(player)) && (!enabled));
+	       if ((!hasTicket(player)) && (enabled == true))
+	         this.ticketSet.add(player);
+	       else if ((!hasTicket(player)) && (!enabled));
 	    }
   public void buyTicket(Double price, Player player){
 	  Player p = player;
@@ -157,13 +158,13 @@ public ItemMeta ticket;
     		return;
 		 }
 				
-/* 144 */       economy.withdrawPlayer(player.getName(), price.doubleValue());
+                economy.withdrawPlayer(player.getName(), price.doubleValue());
 				if(InventoryCheck(p, is) == true)
 				{
 					setTicket(player, true);
 					player.getInventory().addItem(is);
 					player.updateInventory();
-/* 146 */           player.sendMessage(ChatColor.GREEN + handleMessages(Integer.valueOf(5)).replace("%price%", new StringBuilder().append(ChatColor.WHITE).append(price.toString()).toString()));
+                    player.sendMessage(ChatColor.GREEN + handleMessages(Integer.valueOf(5)).replace("%price%", new StringBuilder().append(ChatColor.WHITE).append(price.toString()).toString()));
 				} else {
 					player.sendMessage(ChatColor.RED + "Your inventory is full!");
 					}
@@ -210,7 +211,7 @@ if (this.dispenseMinecart) {
 
      return Boolean.valueOf(economy != null);
   }
-  private boolean InventoryCheck(Player player, ItemStack is) {
+  private boolean InventoryCheck(Player player, ItemStack is) {    /*Check if there is enough space in Inventory to store Ticket*/
 		ItemStack itemToAdd = is;
 		int freeSpace = 0;
 		for (ItemStack i : player.getInventory()) {
@@ -225,10 +226,9 @@ if (this.dispenseMinecart) {
 		} else {
 			return false;
 			
-//not enough space, tell the player and abort mission
 }
 }
-  private int goldCounter(Player player){
+  private int goldCounter(Player player){    /*Count the total number of Gold Ingots in Inventory if using Gold Ingot System*/
 	  int gold = 0;
 	  for (ItemStack i : player.getInventory()) {
 		  if ((i != null) && (i.getType() == Material.GOLD_INGOT)){
@@ -239,7 +239,8 @@ if (this.dispenseMinecart) {
 			}
 	  return gold;
 		}
-  private void takeGold(int Price, Player player){
+  
+  private void takeGold(int Price, Player player){    /*Take Gold Ingots from Inventory if using Gold Ingot System*/
 	  int change;
 	  int goldLeft = Price;
 	  for (ItemStack i : player.getInventory().getContents()){
@@ -267,11 +268,3 @@ if (this.dispenseMinecart) {
 	  }
   }
   
-
-  
-
-
-/* Location:           C:\Users\DrkMatr\Desktop\TrainTicket-1.4.jar
- * Qualified Name:     me.wizzledonker.plugins.trainticket.Trainticket
- * JD-Core Version:    0.6.2
- */

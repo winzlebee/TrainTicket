@@ -15,7 +15,7 @@ public TrainTicketLoginListener(Trainticket instance)
 plugin = instance;
 }
 @EventHandler
-public void trainLoginListener(PlayerLoginEvent event) {
+public void trainLoginListener(PlayerLoginEvent event) {    /*Fixes the error where TrainTickets cease to be TrainTickets if player logs off*/
 	Player player = event.getPlayer();
 	plugin.setTicket(player, true);
 	}    
