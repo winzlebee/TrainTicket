@@ -49,7 +49,7 @@ plugin = instance;
                               
         	     if (player.getItemInHand().getAmount() != 0)
         	    	 {
-        	    	 	if((player.getInventory().getItemInHand().getItemMeta().getDisplayName().equals(plugin.ticketName)) && (plugin.hasTicket(player) == true))
+        	    	 	if((player.getInventory().getItemInHand().hasItemMeta() == true) && (player.getInventory().getItemInHand().getItemMeta().getDisplayName().equals(plugin.ticketName)) && (plugin.hasTicket(player) == true))
         	    	 		{
 /* 33 */         				player.sendMessage(plugin.handleMessages(Integer.valueOf(1)));
 /* 34 */         				if(player.getItemInHand().getAmount() == 1)
