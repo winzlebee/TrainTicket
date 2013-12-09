@@ -1,3 +1,2 @@
 language: java
 notifications:
-  irc: "irc.esper.net#UsefulVillagers"
