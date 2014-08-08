@@ -153,12 +153,12 @@ public class Trainticket extends JavaPlugin {
         ItemStack it = new ItemStack(ticketDataValue, 1);
 
         if (!isGoldIngot()) {
-            if (!(economy.getBalance(player.getName()) > price)) {
+            if (!(economy.getBalance(player) > price)) {
                 player.sendMessage(ChatColor.RED + handleMessages(4));
                 return;
             }
             setTicket(player, true);
-            economy.withdrawPlayer(player.getName(), price);
+            economy.withdrawPlayer(player, price);
             player.setItemInHand(it);
             player.sendMessage(ChatColor.GREEN + handleMessages(5).replace("%price%", ChatColor.WHITE + price.toString()));
         } else {
