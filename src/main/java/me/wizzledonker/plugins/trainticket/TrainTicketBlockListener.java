@@ -6,21 +6,22 @@ package me.wizzledonker.plugins.trainticket;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockListener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
 /**
  *
  * @author Win
  */
-public class TrainTicketBlockListener extends BlockListener {
+public class TrainTicketBlockListener implements Listener {
     public static Trainticket plugin;
     
     public TrainTicketBlockListener(Trainticket instance) {
         plugin = instance;
     }
     
-    @Override
+    @EventHandler
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
         if (!event.getLine(0).equalsIgnoreCase("[booth]")) {

@@ -11,18 +11,16 @@
 
 package me.wizzledonker.plugins.trainticket;
 
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
-import org.bukkit.event.block.BlockListener;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.vehicle.VehicleListener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -31,14 +29,16 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Trainticket extends JavaPlugin {
-    VehicleListener signChestListener = new TrainTicketListener(this);
-    PlayerListener trainPlayerListener = new TrainTicketPlayerListener(this);
-    BlockListener trainBlockListener = new TrainTicketBlockListener(this);
+    TrainTicketListener signChestListener = new TrainTicketListener(this);
+    TrainTicketPlayerListener trainPlayerListener = new TrainTicketPlayerListener(this);
+    TrainTicketBlockListener trainBlockListener = new TrainTicketBlockListener(this);
     public static Economy economy = null;
+    public WorldGuardPlugin worldGuard = null;
     
     public boolean messagesEnable = true;
     public boolean dispenseMinecart = false;
     public int ticketDataValue;
+    public List<String> worldGuardRegions = null;
     
     private Set<Player> ticketSet = new HashSet<Player>();
     
@@ -55,9 +55,14 @@ public class Trainticket extends JavaPlugin {
             System.out.println(this + ": Vault economy not found, switching to gold ingots!");
         }
         
-        pm.registerEvent(Type.VEHICLE_ENTER, signChestListener, Priority.Normal, this);
-        pm.registerEvent(Type.PLAYER_INTERACT, trainPlayerListener, Priority.Normal, this);
-        pm.registerEvent(Type.SIGN_CHANGE, trainBlockListener, Priority.Normal, this);
+        worldGuard = getWorldGuard();
+        if (worldGuard != null) {
+            System.out.println(this + ": Successfully linked with WorldGuard");
+        }
+        
+        pm.registerEvents(signChestListener, this);
+        pm.registerEvents(trainPlayerListener, this);
+        pm.registerEvents(trainBlockListener, this);
         setupConfig();
         
         System.out.println(this + " by wizzledonker loaded all events");
@@ -87,6 +92,10 @@ public class Trainticket extends JavaPlugin {
         if (!getConfig().contains("booth.dispense_minecart")) {
             getConfig().set("booth.dispense_minecart", false);
         }
+        if (!getConfig().contains("worldguard_regions")) {
+            List<String> listOfStrings = Arrays.asList("trainstation", "road", "city");
+            getConfig().set("worldguard_regions", listOfStrings);
+        }
         
         saveConfig();
         
@@ -94,6 +103,7 @@ public class Trainticket extends JavaPlugin {
         messagesEnable = getConfig().getBoolean("messages.enabled", true);
         dispenseMinecart = getConfig().getBoolean("booth.dispense_minecart", false);
         ticketDataValue = getConfig().getInt("booth.ticket_item_id", 339);
+        worldGuardRegions = getConfig().getStringList("worldguard_regions");
         
         System.out.println(this + " has finished loading the config file.");
     }
@@ -138,8 +148,10 @@ public class Trainticket extends JavaPlugin {
     public void buyTicket(Double price, Player player) {
         //All messages are taken from method (String) handleMessages()
         
-        ItemStack it = new ItemStack(ticketDataValue, 1);
+        if (hasTicket(player)) return;
         
+        ItemStack it = new ItemStack(ticketDataValue, 1);
+
         if (!isGoldIngot()) {
             if (!(economy.getBalance(player.getName()) > price)) {
                 player.sendMessage(ChatColor.RED + handleMessages(4));
@@ -174,6 +186,10 @@ public class Trainticket extends JavaPlugin {
         return (economy == null);
     }
     
+    public boolean isWorldGuard() {
+        return (economy != null);
+    }
+    
     private Boolean setupEconomy() {
         //Sets up Vault to be used with the plugin
         Plugin vault = this.getServer().getPluginManager().getPlugin("Vault");
@@ -186,5 +202,16 @@ public class Trainticket extends JavaPlugin {
         }
 
         return (economy != null);
+    }
+    
+    private WorldGuardPlugin getWorldGuard() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+
+        // WorldGuard may not be loaded
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+            return null; // Maybe you want throw an exception instead
+        }
+
+        return (WorldGuardPlugin) plugin;
     }
 }

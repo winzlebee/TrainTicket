@@ -9,11 +9,12 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
 
-public class TrainTicketPlayerListener extends PlayerListener {
+public class TrainTicketPlayerListener implements Listener {
     
     public static Trainticket plugin;
     
@@ -21,7 +22,7 @@ public class TrainTicketPlayerListener extends PlayerListener {
         plugin = instance;
     }
    
-    @Override
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Action action = event.getAction();
         if (!action.equals(Action.RIGHT_CLICK_BLOCK)) {
