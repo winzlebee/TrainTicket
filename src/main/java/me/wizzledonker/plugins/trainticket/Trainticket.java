@@ -1,7 +1,6 @@
 package me.wizzledonker.plugins.trainticket;
 
 import java.io.File;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,18 +9,12 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -39,28 +32,29 @@ public int ticketDataValue;
 public String ticketName = "TrainTicket";
 public String ticketLore1 = "Allows you to ride";
 public String ticketLore2 = "In Minecarts/Boats";
-private Set<Player> ticketSet = new HashSet();
+private Set<Player> ticketSet = new HashSet<Player>();
 public ItemStack is;
 public ItemMeta ticket;
 
-  public void onDisable()
+public void onDisable()
   {
-/*  42 */     System.out.println(this + " is now disabled!");
+     System.out.println(this + " is now disabled!");
   }
 
-  public void onEnable() {
-/*  46 */     PluginManager pm = getServer().getPluginManager();
-/*  47 */     if (setupEconomy().booleanValue())
-/*  48 */       System.out.println(this + " has successfully linked with " + economy.getName() + ", via Vault");
-    else {
-/*  50 */       System.out.println(this + ": Vault economy not found, switching to gold ingots!");
+@SuppressWarnings("deprecation")
+public void onEnable() {
+     PluginManager pm = getServer().getPluginManager();
+     if (setupEconomy().booleanValue())
+        System.out.println(this + " has successfully linked with " + economy.getName() + ", via Vault");
+     else {
+       System.out.println(this + ": Vault economy not found, switching to gold ingots!");
     }
 
-/*  53 */     pm.registerEvents(this.signChestListener, this);
-/*  54 */     pm.registerEvents(this.trainPlayerListener, this);
-/*  55 */     pm.registerEvents(this.trainBlockListener, this);
+              pm.registerEvents(this.signChestListener, this);
+              pm.registerEvents(this.trainPlayerListener, this);
+              pm.registerEvents(this.trainBlockListener, this);
               pm.registerEvents(this.trainLoginListener, this);
-/*  56 */     setupConfig();
+              setupConfig();
 			  /*Initialize Custom Ticket Item*/
 			  is = new ItemStack(Material.getMaterial(ticketDataValue), 1);
 			  ticket = is.getItemMeta();
@@ -70,7 +64,7 @@ public ItemMeta ticket;
               lore.add(ticketLore2);
               ticket.setLore(lore);
               is.setItemMeta(ticket);
-/*  58 */     System.out.println(this + " by wizzledonker loaded all events");
+              System.out.println(this + " by wizzledonker loaded all events");
   }
 
   public void setupConfig()
@@ -150,7 +144,8 @@ public ItemMeta ticket;
 	         this.ticketSet.add(player);
 	       else if ((!hasTicket(player)) && (!enabled));
 	    }
-  public void buyTicket(Double price, Player player){
+  @SuppressWarnings("deprecation")
+public void buyTicket(Double price, Player player){
 	  Player p = player;
     if (!isGoldIngot()) {
     	if (economy.getBalance(player.getName()) <= price.doubleValue()) {
@@ -204,7 +199,7 @@ if (this.dispenseMinecart) {
    if (vault == null) {
      return Boolean.valueOf(false);
     }
-  RegisteredServiceProvider economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
+  RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
   if (economyProvider != null) {
      economy = (Economy)economyProvider.getProvider();
     }
@@ -240,7 +235,8 @@ if (this.dispenseMinecart) {
 	  return gold;
 		}
   
-  private void takeGold(int Price, Player player){    /*Take Gold Ingots from Inventory if using Gold Ingot System*/
+  @SuppressWarnings("deprecation")
+private void takeGold(int Price, Player player){    /*Take Gold Ingots from Inventory if using Gold Ingot System*/
 	  int change;
 	  int goldLeft = Price;
 	  for (ItemStack i : player.getInventory().getContents()){
