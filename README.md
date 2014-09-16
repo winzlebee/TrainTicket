@@ -3,7 +3,7 @@ TrainTicket
 
 TrainTicket is a bukkit plugin which allows people to use tickets before entering any vehicle
 
-https://github.com/DrkMatr1984/TrainTicket/wiki
+https://github.com/BukkitCodersUnited/TrainTicket/wiki
 
 To compile:
 
